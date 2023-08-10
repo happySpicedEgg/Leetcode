@@ -55,30 +55,44 @@ using namespace std;
 //同思路但代码简化
 //5,7,7,8,8,10  target=8
 
-    int binarySearch(vector<int>& nums, int target, bool lower) {
-        int left = 0, right = (int)nums.size() - 1, ans = (int)nums.size();
-        while (left <= right) {
-            int mid = (left + right) / 2;
-            if (nums[mid] > target || (lower && nums[mid] >= target)) {
-                right = mid - 1;
-                ans = mid;
-            }
-            else {
-                left = mid + 1;
-            }
-        }
-        return ans;
-    }
+//二分查找左右边界正式开始
+int binarySearch(vector<int>& nums,int target,bool lower)
+{
+	//设置左右边界，还有中间值记录器
+	int left = 0; int right = nums.size() - 1; int ans = nums.size();
+	//如果是左挡位三个指针肯定指着左边界，然后右指针往左移动来结束循环，此时可直接返回ans
+	while (left<=right)
+	{
+		int mid = left + (right - left) / 2;
+		if (nums[mid]>target||(lower&&nums[mid] >= target))
+		{
+			right = mid - 1;
+			ans = mid;
+		}
+		else
+		{
+			left = mid + 1;
+		}
+	}
+	//返回ans
+	return ans;
 
-    vector<int> searchRange(vector<int>& nums, int target) {
-        int leftIdx = binarySearch(nums, target, true);
-        int rightIdx = binarySearch(nums, target, false) - 1;
-        if (leftIdx <= rightIdx && rightIdx < nums.size() && nums[leftIdx] == target && nums[rightIdx] == target) {
-            return vector<int>{leftIdx, rightIdx};
-        }
-        return vector<int>{-1, -1};
-    }
-
+}
+    //二分查找入口
+vector<int> searchRange(vector<int>& nums,int target) 
+{
+	//先找左边界
+	int left = binarySearch(nums, target, true);
+	//再找右边界，记住，找右边界函数的值返回时候要减1
+	int right = binarySearch(nums, target, false) - 1;
+	//如果函数返回的左边界小于等于右边界并且右边界小于nums.size(),并且左右边界都等于target就返回左右边界容器
+	if (left<=right&&right<nums.size()&&nums[left]==target&&nums[right]==target)
+	{
+		return vector<int>{left, right};
+	}
+	//否则返回-1，-1
+	return { -1,-1 };
+}
 
 int main() {
 	vector<int>nums;
