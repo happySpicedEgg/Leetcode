@@ -1,5 +1,6 @@
 ﻿	#include <vector>
 	#include <iostream>
+//把数组中的良民移入新数组，把val坏人不移进去新数组
 
 	using namespace std;
 	int removeElement(vector<int>& nums, int val) {
